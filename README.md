@@ -166,4 +166,4 @@ Potential next steps are a secured deployment boundary, CI/CD and dependency sca
 
 ## Publication hygiene
 
-This folder is intentionally standalone and has not been initialized or pushed to GitHub. Review `.gitignore`, `.dockerignore`, and every evidence file before creating a repository. Never commit `.env`, Docker volume contents, generated output, database files, or credentials.
+This folder is intentionally standalone and initialized as a local Git repository only; no remote is configured and nothing has been pushed to GitHub. Review `.gitignore`, `.dockerignore`, and every evidence file before adding a remote. Never commit `.env`, Docker volume contents, generated output, database files, or credentials.
