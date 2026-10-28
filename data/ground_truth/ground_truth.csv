@@ -1,0 +1,6 @@
+issue_id,issue_type,affected_entity,affected_record_id,detection_rule_id,expected_severity,expected_action,explanation
+ISS-FUTURE_OUTCOME_LEAKAGE-AFI-001,FUTURE_OUTCOME_LEAKAGE,anomalous_forecast_inputs,AFI-001,LEAKAGE.FEATURE_AS_OF,ERROR,QUARANTINE_FEATURE_SET,Final outcome event occurs after the snapshot but is marked as a feature; AFI-002 is a valid post-horizon label.
+ISS-STAGE_PROBABILITY_MISMATCH-AFI-003,STAGE_PROBABILITY_MISMATCH,anomalous_forecast_inputs,AFI-003,FORECAST.STAGE_PROBABILITY_EFFECTIVE_DATE,ERROR,RECOMPUTE_FORECAST_INPUT,Configured base probability for the snapshot stage was deliberately replaced.
+ISS-DUPLICATE_OPPORTUNITY_COUNT-AGG-DUP-001,DUPLICATE_OPPORTUNITY_COUNT,anomalous_aggregation_inputs,AGG-DUP-001,AGGREGATION.UNIQUE_SNAPSHOT_OPPORTUNITY,ERROR,DEDUPLICATE_AGGREGATION_INPUT,Same snapshot/opportunity is present twice in one aggregation input.
+ISS-CLOSE_DATE_BEFORE_CREATION-OPP-2025-000001,CLOSE_DATE_BEFORE_CREATION,opportunity_change_events,OPP-2025-000001,OPPORTUNITY.EXPECTED_CLOSE_AFTER_CREATION,ERROR,QUARANTINE_EVENT,Expected close change predates opportunity creation.
+ISS-MIXED_CURRENCY_TOTAL-AGG-FX-001,MIXED_CURRENCY_TOTAL,anomalous_aggregation_inputs,AGG-FX-001,AGGREGATION.COMMON_REPORTING_CURRENCY,ERROR,CONVERT_OR_REJECT_TOTAL,USD and EUR values are totalled without conversion.

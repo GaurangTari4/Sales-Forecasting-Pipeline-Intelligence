@@ -1,0 +1,8 @@
+stage_probability_version_id,version_name,stage_code,scenario,probability,effective_from,effective_to,created_at
+1,synthetic-v1,PROSPECTING,BASE,0.12,2025-01-01,,2025-01-01T12:00:00+00:00
+2,synthetic-v1,QUALIFICATION,BASE,0.24,2025-01-01,,2025-01-01T12:00:00+00:00
+3,synthetic-v1,DISCOVERY,BASE,0.38,2025-01-01,,2025-01-01T12:00:00+00:00
+4,synthetic-v1,PROPOSAL,BASE,0.55,2025-01-01,,2025-01-01T12:00:00+00:00
+5,synthetic-v1,NEGOTIATION,BASE,0.73,2025-01-01,,2025-01-01T12:00:00+00:00
+6,synthetic-v1,CLOSED_WON,BASE,1.00,2025-01-01,,2025-01-01T12:00:00+00:00
+7,synthetic-v1,CLOSED_LOST,BASE,0.00,2025-01-01,,2025-01-01T12:00:00+00:00

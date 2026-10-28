@@ -1,0 +1,11 @@
+{
+  "reps": 20,
+  "accounts": 20,
+  "opportunities": 200,
+  "history_start": "2025-01-01",
+  "history_end": "2026-12-31",
+  "snapshot_frequency": "QUARTERLY",
+  "seed": 20261022,
+  "anomaly_injection_rate": 1.0,
+  "reporting_currency": "USD"
+}

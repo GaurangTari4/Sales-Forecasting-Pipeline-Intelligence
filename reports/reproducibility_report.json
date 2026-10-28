@@ -1,0 +1,135 @@
+{
+  "csv_checksums_match": true,
+  "csv_sha256": {
+    "accounts": "8e13bac4dd33884c6e2ef354c8093baa5a6453836349fdec2a13b7cf857730e0",
+    "activities": "113c2c0961ca08fe34c0bd64ab5f8b3bf56c55cf26afed58ca3f50fea987c4c1",
+    "exchange_rates": "94141b23cdf296b3121c41138cbe5ad073cbfa7a166ea3ea5c9664d21afd3f0a",
+    "forecast_snapshots": "7d88db51183ed6b9957ead1dc55ab0e46f7935f2a6c53e6c9a89839848672602",
+    "ground_truth_anomalies": "f025a9033eaa2849d2ae48391670466bf5f04bb6b602ed9a95e5032a57fadea3",
+    "ground_truth_outcomes": "c421f2b96fb39785792b8534bbb80f06e21b16d3658dbc28b70f965906e7612c",
+    "historical_bookings": "76af6bda9c18786706eed0ed0d4d38249c9927e7887a41901b13458d8c8fef88",
+    "opportunities": "ff635f84eb17ca4d32f59dfb00874d1cf64ee102ac6a7081079d5a9aae314e8d",
+    "opportunity_change_events": "636a6002e0873d6379cf36550b400dba83d6e5d4b7685fcbf9ce2b32d7a26023",
+    "quotas": "5a4c3bdf8faffa72576efe92164b9a562033c408b204d7b026e819fbb38b1c8f",
+    "rep_territory_assignments": "7989877eecf710ef122e24888598c7c41ec62c65845e1b22f67479ee6d791873",
+    "sales_reps": "ea1b66cc0c919c301ea2af8be49457be932c4c6b7867fec0d48c93f3e9eb33bf",
+    "snapshot_opportunities": "acb4a1030cc9b7dc44e4b40dcc60100ad43e453b1e1ec34d1888ba5ebcf2df5e",
+    "stage_history": "45243a69824048d5019afba9aacd6d59a3a1c9659f8aae36745e04e6a295c7c8",
+    "stage_probability_versions": "174a9e60d1bfa5fee07113d95df40d83f264895f368383ee11fe16b769b2ed43",
+    "stages": "4e8d0c605c8b706bfb3d4a22229c7b45c360f28e6e4609df0dfc0bab220ee367",
+    "territories": "91d1de05945fc663f8868a5551a55e2f662edb76f557d0796c06db5eca201a63"
+  },
+  "first_output": "output\\brief-full-a",
+  "logical_checksums_match": true,
+  "logical_record_sha256": {
+    "accounts": {
+      "first": "667da8c20e7118b1d37d4af4010e16ef1a19cfd48ff56834a94a5ab1642570c4",
+      "match": true,
+      "second": "667da8c20e7118b1d37d4af4010e16ef1a19cfd48ff56834a94a5ab1642570c4"
+    },
+    "activities": {
+      "first": "90d8b4a595e07b7bffcc1dc33358bd8f2e9984ccfb1cdce6c90573c66f7d4f97",
+      "match": true,
+      "second": "90d8b4a595e07b7bffcc1dc33358bd8f2e9984ccfb1cdce6c90573c66f7d4f97"
+    },
+    "exchange_rates": {
+      "first": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "match": true,
+      "second": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "forecast_snapshots": {
+      "first": "a86ee3d13f9b9e080c226d1451b448fd332c44ea2693120723e286227106ca07",
+      "match": true,
+      "second": "a86ee3d13f9b9e080c226d1451b448fd332c44ea2693120723e286227106ca07"
+    },
+    "ground_truth_anomalies": {
+      "first": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "match": true,
+      "second": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "ground_truth_outcomes": {
+      "first": "6c656d05786f159e75ec128722d277c965da9a5753d93e0adf13e08558af0c97",
+      "match": true,
+      "second": "6c656d05786f159e75ec128722d277c965da9a5753d93e0adf13e08558af0c97"
+    },
+    "historical_bookings": {
+      "first": "76a6abd5adead064958f2722c8c1358f0da045ff187434ed2e3624b4207d41e0",
+      "match": true,
+      "second": "76a6abd5adead064958f2722c8c1358f0da045ff187434ed2e3624b4207d41e0"
+    },
+    "opportunities": {
+      "first": "7237aefdd39bef2d12fa30da298952c009405b97df9fecc0bee463720650a429",
+      "match": true,
+      "second": "7237aefdd39bef2d12fa30da298952c009405b97df9fecc0bee463720650a429"
+    },
+    "opportunity_change_events": {
+      "first": "9811e704e4402d76ede95de55006c912cc0b986b6bb2038159ce3018d2c5f76c",
+      "match": true,
+      "second": "9811e704e4402d76ede95de55006c912cc0b986b6bb2038159ce3018d2c5f76c"
+    },
+    "quotas": {
+      "first": "3f59b57f8ebf47a16f96de39b9ffb6d991d8756582f612b8333895ac10e86d8e",
+      "match": true,
+      "second": "3f59b57f8ebf47a16f96de39b9ffb6d991d8756582f612b8333895ac10e86d8e"
+    },
+    "rep_territory_assignments": {
+      "first": "754582f8f102fc5c4378166b97c810c199155d3f476fc1cbee93b24dfc62fe11",
+      "match": true,
+      "second": "754582f8f102fc5c4378166b97c810c199155d3f476fc1cbee93b24dfc62fe11"
+    },
+    "sales_reps": {
+      "first": "129602458a7f817e810082fed06f40a178032f00790c1ac821293a0620439d58",
+      "match": true,
+      "second": "129602458a7f817e810082fed06f40a178032f00790c1ac821293a0620439d58"
+    },
+    "snapshot_opportunities": {
+      "first": "6b8e08a46b10d466dbed389fd2b8683e9b0d386e1964397f95af85b2d776420a",
+      "match": true,
+      "second": "6b8e08a46b10d466dbed389fd2b8683e9b0d386e1964397f95af85b2d776420a"
+    },
+    "stage_history": {
+      "first": "0fe636e2952a7d5e476726f2fde5abd592dd25f999ddaa364bb965b9d5fb8011",
+      "match": true,
+      "second": "0fe636e2952a7d5e476726f2fde5abd592dd25f999ddaa364bb965b9d5fb8011"
+    },
+    "stage_probability_versions": {
+      "first": "ae745dcdbebe7cb45c36218953de774cdb83ab6105cc4550b6bba0931f5050d5",
+      "match": true,
+      "second": "ae745dcdbebe7cb45c36218953de774cdb83ab6105cc4550b6bba0931f5050d5"
+    },
+    "stages": {
+      "first": "ddd8b0c40e646b836401ff3ac0c68090ecfd506a43d92cc049550f2a68ab38bc",
+      "match": true,
+      "second": "ddd8b0c40e646b836401ff3ac0c68090ecfd506a43d92cc049550f2a68ab38bc"
+    },
+    "territories": {
+      "first": "8d8af57b78c5af7ebeeafca79e554ad30a0b57080cee2147b716ebb709a387b0",
+      "match": true,
+      "second": "8d8af57b78c5af7ebeeafca79e554ad30a0b57080cee2147b716ebb709a387b0"
+    }
+  },
+  "reproducible": true,
+  "row_counts": {
+    "accounts": 2000,
+    "activities": 109429,
+    "exchange_rates": 0,
+    "forecast_snapshots": 8,
+    "ground_truth_anomalies": 0,
+    "ground_truth_outcomes": 18918,
+    "historical_bookings": 1693,
+    "opportunities": 20000,
+    "opportunity_change_events": 1257,
+    "quotas": 16000,
+    "rep_territory_assignments": 2200,
+    "sales_reps": 2000,
+    "snapshot_opportunities": 89724,
+    "stage_history": 56060,
+    "stage_probability_versions": 7,
+    "stages": 7,
+    "territories": 6
+  },
+  "row_counts_match": true,
+  "runtime_note": "Generation timing is reported by the invoking command, not synthesized by this comparison utility.",
+  "second_output": "output\\brief-full-b",
+  "seed": 20261022
+}

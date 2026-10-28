@@ -1,0 +1,86 @@
+{
+  "anomaly_dataset": true,
+  "anomaly_injection_rate": 1.0,
+  "baseline_valid": true,
+  "config": {
+    "accounts": "20",
+    "anomaly_injection_rate": "1.0",
+    "history_end": "2026-12-31",
+    "history_start": "2025-01-01",
+    "opportunities": "200",
+    "reporting_currency": "USD",
+    "reps": "20",
+    "seed": "20261022",
+    "snapshot_frequency": "QUARTERLY"
+  },
+  "detection_metrics": {
+    "false_negatives": 0,
+    "false_positives": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "true_positives": 5
+  },
+  "empty_table_columns": {
+    "exchange_rates": [
+      "rate_date",
+      "from_currency",
+      "to_currency",
+      "rate",
+      "source"
+    ],
+    "ground_truth_anomalies": [
+      "anomaly_id",
+      "entity_name",
+      "entity_id",
+      "rule_code",
+      "injected",
+      "detected_at",
+      "severity"
+    ]
+  },
+  "row_counts": {
+    "accounts": 20,
+    "activities": 1061,
+    "anomalous_aggregation_inputs": 4,
+    "anomalous_forecast_inputs": 3,
+    "exchange_rates": 0,
+    "forecast_snapshots": 8,
+    "ground_truth": 5,
+    "ground_truth_anomalies": 0,
+    "ground_truth_outcomes": 185,
+    "historical_bookings": 12,
+    "opportunities": 200,
+    "opportunity_change_events": 14,
+    "quotas": 160,
+    "rep_territory_assignments": 22,
+    "sales_reps": 20,
+    "snapshot_opportunities": 850,
+    "stage_history": 561,
+    "stage_probability_versions": 7,
+    "stages": 7,
+    "territories": 6
+  },
+  "seed": 20261022,
+  "sha256": {
+    "accounts": "feb80a76a90f8f1e79af79143ec8e39f83c2ed0714f1d10fcfebcbf8810549bc",
+    "activities": "f285b8b091a42a99a18084b84071d25e3ae0dbf966b90ebfd2537d28205de6c4",
+    "anomalous_aggregation_inputs": "73092609c66f24fd9a61da64bdae50e87f6aba47287d5cb66565da70b76f2a26",
+    "anomalous_forecast_inputs": "d5f1100cdde59519fac9781f5f957c91ea0d78c2f05b1c414365234e35cff44a",
+    "exchange_rates": "94141b23cdf296b3121c41138cbe5ad073cbfa7a166ea3ea5c9664d21afd3f0a",
+    "forecast_snapshots": "7d88db51183ed6b9957ead1dc55ab0e46f7935f2a6c53e6c9a89839848672602",
+    "ground_truth": "17be6f1a0923842717684c1a061f2f22986432d2c96c004c4a2e0bf6d924eabd",
+    "ground_truth_anomalies": "f025a9033eaa2849d2ae48391670466bf5f04bb6b602ed9a95e5032a57fadea3",
+    "ground_truth_outcomes": "80b427a3e37e6bb31bebefb3115215fb16745f2777aee2734d12cb70fda27c3f",
+    "historical_bookings": "2d6a23cec473bd134d21dc7f739d662c118be3e3dbadd41ab9d042a7dec71e01",
+    "opportunities": "ce01379ebf1514b9eeb37f4aad068eb7ebbc36d31dce3dcd4657cb30b19edffc",
+    "opportunity_change_events": "6cefe6965a6b40786f6a795aede753bcc23fbe12ac6f28f62d083f5cacf6361c",
+    "quotas": "982f5ef98aa931db897fd80ec5ad9ac5ec39ec492583b230fbb74c03f1c68490",
+    "rep_territory_assignments": "4720d4f893a86c865e569574676b6a43d1925678ab4ac8c01ff5c4ef403f6dc2",
+    "sales_reps": "e725daaa89bd137cec6d155ed2aa4ca756032e6329bf15cd76580714a408b6f7",
+    "snapshot_opportunities": "dfadfb22e790c4ecfda114aace2547a585d8c7ae3c876b156b591ebd41bf737b",
+    "stage_history": "b911561ca14f3ae8f1f0b4777dc5068e4ecb3988763b7f6bf0d9624605044bc6",
+    "stage_probability_versions": "174a9e60d1bfa5fee07113d95df40d83f264895f368383ee11fe16b769b2ed43",
+    "stages": "4e8d0c605c8b706bfb3d4a22229c7b45c360f28e6e4609df0dfc0bab220ee367",
+    "territories": "91d1de05945fc663f8868a5551a55e2f662edb76f557d0796c06db5eca201a63"
+  }
+}

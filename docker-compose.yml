@@ -1,0 +1,83 @@
+name: buss-publication
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-buss_publication}
+      POSTGRES_USER: ${POSTGRES_USER:-buss_publication}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT:-5545}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+    restart: unless-stopped
+
+  bootstrap:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-buss_publication}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-buss_publication}
+    volumes:
+      - runtime_data:/app/runtime-data
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >-
+      sh -c "python -m src.generator --output /app/runtime-data/starter
+      && python -m src.persistence migrate
+      && python -m src.persistence seed --input /app/runtime-data/starter"
+    restart: "no"
+
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-buss_publication}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-buss_publication}
+      FORECAST_DATASET_DIR: /app/runtime-data/starter
+      API_RUNS_DIR: /app/runtime-data/api-runs
+    volumes:
+      - runtime_data:/app/runtime-data
+    ports:
+      - "${API_PORT:-8011}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      bootstrap:
+        condition: service_completed_successfully
+    command: ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:8000/health', timeout=3).read()"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+    restart: unless-stopped
+
+  dashboard:
+    build: .
+    environment:
+      FORECAST_API_URL: http://api:8000
+    ports:
+      - "${STREAMLIT_PORT:-8511}:8501"
+    depends_on:
+      api:
+        condition: service_healthy
+    command: ["streamlit", "run", "dashboard/app.py", "--server.address=0.0.0.0", "--server.port=8501", "--browser.gatherUsageStats=false"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:8501/_stcore/health', timeout=3).read()"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    name: buss_publication_postgres_data
+  runtime_data:
+    name: buss_publication_runtime_data

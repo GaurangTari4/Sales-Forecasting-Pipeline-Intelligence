@@ -1,0 +1,7 @@
+territory_id,territory_name,region,active_from,active_to
+TER-001,North America East,NA,2025-01-01,
+TER-002,North America West,NA,2025-01-01,
+TER-003,United Kingdom,EMEA,2025-01-01,
+TER-004,DACH,EMEA,2025-01-01,
+TER-005,India,APAC,2025-01-01,
+TER-006,ANZ,APAC,2025-01-01,

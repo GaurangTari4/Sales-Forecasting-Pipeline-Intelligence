@@ -1,0 +1,30 @@
+{
+  "audit_type": "pre_upgrade_baseline",
+  "audit_date": "2026-10-28",
+  "commands": [
+    "rg --files -g '!**/.git/**'",
+    "git rev-parse --is-inside-work-tree",
+    "C:\\Users\\gaura\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe -m pytest -q"
+  ],
+  "summary": {"PASS": 7, "PARTIAL": 7, "FAIL": 2, "NOT VERIFIED": 2},
+  "requirements": [
+    {"id":"BR-01","status":"PASS","requirement":"PIT opportunity and aggregate bookings forecast","implementation":"src/features/builder.py; src/forecasting/baseline.py; api/main.py","evidence":"Static source inspection","gap":null},
+    {"id":"BR-02","status":"PASS","requirement":"PIT lifecycle history and leakage control","implementation":"src/features/builder.py; schemas/schema.sql","evidence":"Static source inspection","gap":"Execution evidence pending"},
+    {"id":"BR-03","status":"PASS","requirement":"Required entities and effective-dated relationships","implementation":"schemas/schema.sql; docs/relationships.md","evidence":"Static source inspection","gap":"Requested documentation aliases absent"},
+    {"id":"BR-04","status":"PARTIAL","requirement":"Complete field-level data dictionary","implementation":"docs/data_dictionary.md","evidence":"Static source inspection","gap":"Supporting fields are not fully tabulated"},
+    {"id":"BR-05","status":"PASS","requirement":"Deterministic STARTER and FULL generator","implementation":"configs/generator_*.json; src/generator/simulation.py","evidence":"Static source inspection","gap":"Fresh full-scale reproducibility run pending"},
+    {"id":"BR-06","status":"PASS","requirement":"Rule-derived outcomes and booking reconciliation","implementation":"src/generator/simulation.py; src/generator/validation.py","evidence":"Static source inspection","gap":"Full-scale execution pending"},
+    {"id":"BR-07","status":"PARTIAL","requirement":"Five labelled negative cases and ground truth","implementation":"src/generator/anomalies.py","evidence":"tests/test_generator.py","gap":"Required ground-truth/report paths absent"},
+    {"id":"BR-08","status":"PASS","requirement":"Reconciled forecast outputs","implementation":"src/forecasting/baseline.py; api/main.py","evidence":"Static source inspection","gap":"Live isolated verification pending"},
+    {"id":"BR-09","status":"FAIL","requirement":"BASE, CONSERVATIVE, OPTIMISTIC and CUSTOM scenarios","implementation":"src/forecasting/uncertainty.py; api/main.py","evidence":"ScenarioRequest Literal inspection","gap":"CUSTOM unavailable"},
+    {"id":"BR-10","status":"PARTIAL","requirement":"Monte Carlo quota-risk output","implementation":"src/forecasting/uncertainty.py","evidence":"Static source inspection","gap":"Probability of missing quota absent from API output"},
+    {"id":"BR-11","status":"PARTIAL","requirement":"Historical evaluation evidence and breakdowns","implementation":"src/evaluation/historical.py","evidence":"Static source inspection","gap":"Current report/execution pending"},
+    {"id":"BR-12","status":"PASS","requirement":"Exceptions and immutable audit trail","implementation":"src/exceptions/engine.py; schemas/schema.sql; api/main.py","evidence":"Static source inspection","gap":"Disposable DB verification pending"},
+    {"id":"BR-13","status":"PARTIAL","requirement":"Six-page dashboard and API acceptance","implementation":"dashboard/app.py; api/main.py","evidence":"Static source inspection","gap":"Live audit pending"},
+    {"id":"BR-14","status":"FAIL","requirement":"Runnable full test suite","implementation":"tests/","evidence":"19 pytest import-mismatch collection errors","gap":"Duplicate github-upload test modules pollute import path"},
+    {"id":"BR-15","status":"NOT VERIFIED","requirement":"Fresh double FULL reproducibility","implementation":"src/generator/export.py","evidence":"No current run","gap":"Execute two isolated generations"},
+    {"id":"BR-16","status":"NOT VERIFIED","requirement":"Reproducible isolated Docker bootstrap","implementation":"docker-compose.yml; docker-compose.isolated.yml","evidence":"Static source inspection","gap":"Run isolated stack"},
+    {"id":"BR-17","status":"PARTIAL","requirement":"All actor workflows addressed","implementation":"README.md; dashboard/","evidence":"Static source inspection","gap":"Explicit actor traceability absent"},
+    {"id":"BR-18","status":"PARTIAL","requirement":"Brief-specific publication documentation","implementation":"README.md; docs/","evidence":"Static source inspection","gap":"Add requested commands/reports/provenance summary"}
+  ]
+}

@@ -1,0 +1,4 @@
+input_id,forecast_snapshot_id,opportunity_id,feature_name,feature_role,feature_value,source_event_at,stage_probability
+AFI-001,FCST-2025-03-31-001,OPP-2025-000001,final_outcome,feature,CLOSED_LOST,2025-07-30T12:00:00+00:00,
+AFI-002,FCST-2025-03-31-001,OPP-2025-000001,final_outcome_label,label,CLOSED_LOST,2025-07-30T12:00:00+00:00,
+AFI-003,FCST-2025-03-31-001,OPP-2025-000002,stage_probability,feature,,2025-03-31T23:00:00+00:00,0.351111

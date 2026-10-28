@@ -1,0 +1,8 @@
+stage_code,display_name,stage_rank,is_terminal
+PROSPECTING,Prospecting,1,False
+QUALIFICATION,Qualification,2,False
+DISCOVERY,Discovery,3,False
+PROPOSAL,Proposal,4,False
+NEGOTIATION,Negotiation,5,False
+CLOSED_WON,Closed Won,6,True
+CLOSED_LOST,Closed Lost,6,True

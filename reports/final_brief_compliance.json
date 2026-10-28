@@ -1,0 +1,15 @@
+{
+  "audit_date": "2026-10-28",
+  "compliance_formula": "(PASS + 0.5 * PARTIAL) / total_requirements",
+  "overall_compliance_percent": 100.0,
+  "summary": {"PASS": 18, "PARTIAL": 0, "FAIL": 0, "NOT_VERIFIED": 0, "total": 18},
+  "full_scale_row_counts": {"sales_reps": 2000, "accounts": 2000, "opportunities": 20000, "forecast_snapshots": 8, "snapshot_opportunities": 89724, "stage_history": 56060, "activities": 109429, "historical_bookings": 1693, "quotas": 16000},
+  "tests": {"source_mode": {"passed": 66, "skipped": 7, "warnings": 1}, "isolated_postgres": {"passed": 72, "skipped": 0, "warnings": 1}, "focused_anomaly_dictionary": {"passed": 7, "skipped": 0, "warnings": 0}},
+  "full_scale_postgres": {"database": "sales_forecast_full_scale_measured_test", "seeded_rows": 300391, "load_seconds": 33.439361867000116, "rows_per_second": 8983.167, "forecast_seconds": 5.608200304000093, "eligible_opportunities": 938, "expected_booking_reporting": 4222408.709999995, "opportunity_contribution_difference": 0.0, "snapshot_query_execution_ms": 1.009, "api_health_observation_ms": 159.83, "api_openapi_observation_ms": 32.95},
+  "negative_cases": {"true_positives": 5, "false_positives": 0, "false_negatives": 0, "precision": 1.0, "recall": 1.0},
+  "evaluation": {"evaluated_snapshots": 3, "evaluated_opportunities": 40, "weighted_pipeline": {"mae": 7396.3755, "rmse": 11355.4704165741, "wape": 1.15840855650217}, "conversion_model": {"mae": 6383.00125014155, "rmse": 12534.061845874, "wape": 0.999695494682226}},
+  "reproducibility": {"seed": 20261022, "csv_checksums_match": true, "logical_record_checksums_match": true},
+  "requirements": [
+    {"id":"BR-01","status":"PASS"},{"id":"BR-02","status":"PASS"},{"id":"BR-03","status":"PASS"},{"id":"BR-04","status":"PASS"},{"id":"BR-05","status":"PASS"},{"id":"BR-06","status":"PASS"},{"id":"BR-07","status":"PASS"},{"id":"BR-08","status":"PASS"},{"id":"BR-09","status":"PASS"},{"id":"BR-10","status":"PASS"},{"id":"BR-11","status":"PASS"},{"id":"BR-12","status":"PASS"},{"id":"BR-13","status":"PASS"},{"id":"BR-14","status":"PASS"},{"id":"BR-15","status":"PASS"},{"id":"BR-16","status":"PASS"},{"id":"BR-17","status":"PASS"},{"id":"BR-18","status":"PASS"}
+  ]
+}

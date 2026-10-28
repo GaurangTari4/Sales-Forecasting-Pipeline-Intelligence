@@ -1,0 +1,56 @@
+{
+  "by_anomaly_type": {
+    "CLOSE_DATE_BEFORE_CREATION": {
+      "false_negatives": 0,
+      "false_positives": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_positives": 1
+    },
+    "DUPLICATE_OPPORTUNITY_COUNT": {
+      "false_negatives": 0,
+      "false_positives": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_positives": 1
+    },
+    "FUTURE_OUTCOME_LEAKAGE": {
+      "false_negatives": 0,
+      "false_positives": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_positives": 1
+    },
+    "MIXED_CURRENCY_TOTAL": {
+      "false_negatives": 0,
+      "false_positives": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_positives": 1
+    },
+    "STAGE_PROBABILITY_MISMATCH": {
+      "false_negatives": 0,
+      "false_positives": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_positives": 1
+    }
+  },
+  "detected_actions": {
+    "CLOSE_DATE_BEFORE_CREATION": "QUARANTINE_EVENT",
+    "DUPLICATE_OPPORTUNITY_COUNT": "DEDUPLICATE_AGGREGATION_INPUT",
+    "FUTURE_OUTCOME_LEAKAGE": "QUARANTINE_FEATURE_SET",
+    "MIXED_CURRENCY_TOTAL": "CONVERT_OR_REJECT_TOTAL",
+    "STAGE_PROBABILITY_MISMATCH": "RECOMPUTE_FORECAST_INPUT"
+  },
+  "ground_truth_path": "data/ground_truth/ground_truth.csv",
+  "overall": {
+    "false_negatives": 0,
+    "false_positives": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "true_positives": 5
+  },
+  "simulation_seed": 20261022,
+  "status": "PASS"
+}

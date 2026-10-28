@@ -1,0 +1,7 @@
+# Timing, uncertainty, and scenarios
+
+The uncertainty layer builds on the conversion model's joint probability, `P(Closed Won and booked within the horizon)`. It does **not** multiply that probability by stage or timing probabilities again. Scenario changes are applied once in log-odds space: conversion/activity assumptions change joint booking odds, while a positive slippage-day shift reduces odds of falling inside the fixed horizon. Booking timing is sampled only after the joint event is sampled, so it is conditional rather than another chance multiplier.
+
+The base scenario has no shifts. Conservative assumes lower conversion odds (-0.35 log odds), 14 extra slippage days, 95% booking fraction, and slightly weaker activity effectiveness. Optimistic assumes +0.25 conversion log odds, 7 fewer slippage days, full booking fraction, and slightly stronger activity effectiveness. These are explicit planning assumptions, not arbitrary forecast multipliers.
+
+Monte Carlo uses a fixed seed and samples each opportunity's joint booking outcome once per draw, then a conditional in-horizon booking date. It returns P10/P50/P90 and mean booking forecasts by quarter, territory, rep, and product, plus opportunity-level scenario contributions. Interval coverage and width can be evaluated on chronological holdout labels. Synthetic data can make calibration look stronger or weaker than production reality because its outcomes share the generator's assumptions; coverage is therefore a diagnostic, not a production calibration claim.

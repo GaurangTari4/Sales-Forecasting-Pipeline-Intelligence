@@ -1,0 +1,7 @@
+# Opt-in override for a clean local demonstration with separate, suffix-named
+# BUSS publication volumes. It does not alter the default Compose stack.
+volumes:
+  postgres_data:
+    name: buss_publication_postgres_data_${COMPOSE_VOLUME_SUFFIX:?Set COMPOSE_VOLUME_SUFFIX for isolated volumes}
+  runtime_data:
+    name: buss_publication_runtime_data_${COMPOSE_VOLUME_SUFFIX:?Set COMPOSE_VOLUME_SUFFIX for isolated volumes}

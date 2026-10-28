@@ -1,0 +1,44 @@
+# Local credentials and editor/runtime state
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+.idea/
+.vscode/
+
+# Python and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Generated data and local outputs (only the controlled test fixture is versioned)
+output/
+runtime-data/
+data/*
+!data/ground_truth/
+!data/ground_truth/**
+
+# Keep the published evidence listed below, not ad-hoc local reports
+reports/*.json
+!reports/brief_gap_analysis.json
+!reports/final_brief_compliance.json
+!reports/reproducibility_report.json
+!reports/anomaly_validation.json
+
+# Models, databases, operating-system files, and prior upload staging
+*.pkl
+*.joblib
+*.sqlite*
+*.db
+*.dump
+*.bak
+*.sql.gz
+*.log
+logs/
+.DS_Store
+Thumbs.db
+github-upload/
