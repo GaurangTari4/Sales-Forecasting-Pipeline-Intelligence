@@ -1,169 +1,248 @@
-# Sales Forecasting & Pipeline Intelligence System (BUSS)
+# Sales Forecasting & Pipeline Intelligence System
 
-BUSS is a reproducible, local demonstration of auditable sales-pipeline intelligence. It generates a deterministic synthetic CRM dataset, loads it into PostgreSQL, produces point-in-time weighted-pipeline forecasts and scenario simulations, and presents results through FastAPI and a six-page Streamlit dashboard.
+BUSS is a Python-based sales forecasting and pipeline intelligence platform. It uses deterministic synthetic CRM data, PostgreSQL, point-in-time feature generation, historical evaluation, scenario analysis, and a Streamlit interface to make forecast drivers and data-quality exceptions inspectable.
 
-It is a portfolio project, not a production forecasting service. It has no authentication, shared-deployment controls, or real customer data.
+It is a self-contained research and demonstration implementation. Its records are synthetic, its forecasts are analytical estimates rather than guarantees, and it is not presented as a production CRM service.
 
-## Business problem
+## Overview
 
-Sales leaders need more than a headline forecast: they need to know which snapshot produced it, what information was available then, whether quota is at risk, which records need attention, and how assumptions affect the result. BUSS makes that lineage visible at opportunity level while separating a current forecast from historical backtesting.
+Sales leaders need a defensible view of expected bookings, quota coverage, pipeline risk, and the assumptions behind a forecast. BUSS models the workflow from CRM-shaped records through validation, effective-dated relationships, historical snapshots, forecast execution, and an auditable user interface.
 
-## Capabilities
+The system keeps historical state separate from future outcomes so reported forecast experiments can be evaluated at a defined cutoff. Forecast inputs, outputs, and hashes are persisted to support deterministic reproduction.
 
-- Deterministic synthetic CRM generation with starter, anomalous, and FULL configurations.
-- PostgreSQL schema, migrations, validation, and idempotent ingestion.
-- Point-in-time feature construction with explicit leakage guards.
-- Transparent weighted-pipeline forecasts and Monte Carlo P10/P50/P90 intervals.
-- BASE, CONSERVATIVE, OPTIMISTIC, and persisted CUSTOM scenario assumptions.
-- Rules-based risk, quota, concentration, and data-quality exceptions.
-- Rolling-origin historical evaluation and immutable forecast-run lineage.
-- FastAPI endpoints and six Streamlit pages: Executive Overview, Pipeline Explorer, Risk and Exceptions, Scenario Planner, Model Evaluation, and Audit and Traceability.
+## Key Features
+
+### Data Engineering
+
+- Deterministic synthetic CRM generator for sales representatives, accounts, territories, opportunities, activities, stage histories, quotas, assignments, bookings, and quarterly snapshots.
+- PostgreSQL schema with primary keys, foreign keys, effective-date validation, lifecycle checks, and reconciliation-oriented entities.
+- Bootstrap workflow that generates starter data, applies migrations, and idempotently seeds the database.
+- Validation rules and exception records for contradictory lifecycle states, missing ownership, invalid dates, and reconciliation differences.
+
+### Forecasting
+
+- Point-in-time eligibility and feature construction that prevent use of outcomes known after the forecast cutoff.
+- Expected-bookings calculation using amount, historical stage conversion, timing-to-horizon, and expected booking fraction.
+- Opportunity age, stage duration, recent activity, and historical conversion features.
+- Deterministic Monte Carlo forecast intervals: P10, P50, and P90.
+- BASE, CONSERVATIVE, OPTIMISTIC, and CUSTOM scenarios with explicit conversion, timing, activity, and booking assumptions.
+
+### Business Intelligence
+
+- Executive quota and forecast context, pipeline exploration, risk and exception investigation, scenario comparison, model evaluation, and audit traceability.
+- FastAPI endpoints for forecast execution, scenario analysis, historical evaluation, and supporting CRM views.
+- Streamlit pages with filters, empty states, business-formatted values, and expandable technical evidence.
+
+### Evaluation and Traceability
+
+- Historical snapshot backtesting with point-in-time controls.
+- Forecast-run persistence, model and feature hashes, fixed seeds, input/output hashes, and reproducibility checks.
+- Controlled anomaly fixtures that distinguish detections from unaffected records.
+- Full-scale deterministic generation and PostgreSQL loading evidence.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  G[Deterministic generator] --> V[Schema-aware validation]
-  V --> P[(PostgreSQL 16)]
-  G --> F[Point-in-time feature builder]
-  F --> M[Weighted forecast and Monte Carlo]
-  M --> R[Immutable forecast artifacts]
-  R --> P
-  P --> A[FastAPI]
-  R --> A
-  A --> D[Streamlit dashboard]
-  A --> E[Scenario and exception views]
-  F --> B[Rolling-origin backtest]
+    G[Deterministic CRM generator] --> V[Validation rules]
+    G --> S[Historical snapshots]
+    V --> P[(PostgreSQL)]
+    S --> P
+    P --> F[Point-in-time feature builder]
+    S --> F
+    F --> E[Forecasting engine]
+    E --> M[Monte Carlo intervals]
+    E --> R[Forecast run and audit record]
+    P --> R
+    P --> A[FastAPI]
+    R --> A
+    F --> B[Historical backtest]
+    B --> A
+    A --> D[Streamlit dashboard]
 ```
+
+The generator creates consistent synthetic operational and historical records. PostgreSQL stores the relational source of truth; the feature builder reads only state available at each snapshot cutoff. Forecast runs and backtests persist their evidence, which the API and dashboard expose.
+
+## Data Model
 
 ```mermaid
 erDiagram
-  TERRITORIES ||--o{ SALES_REPS : contains
-  SALES_REPS ||--o{ REP_TERRITORY_ASSIGNMENTS : has
-  ACCOUNTS ||--o{ OPPORTUNITIES : owns
-  SALES_REPS ||--o{ OPPORTUNITIES : owns
-  OPPORTUNITIES ||--o{ STAGE_HISTORY : records
-  OPPORTUNITIES ||--o{ ACTIVITIES : records
-  OPPORTUNITIES ||--o{ BOOKINGS : realizes
-  OPPORTUNITIES ||--o{ OPPORTUNITY_FORECASTS : contributes
-  FORECAST_RUNS ||--o{ OPPORTUNITY_FORECASTS : contains
+    TERRITORY ||--o{ ACCOUNT : groups
+    ACCOUNT ||--o{ OPPORTUNITY : owns
+    SALES_REP ||--o{ REP_TERRITORY_ASSIGNMENT : has
+    TERRITORY ||--o{ REP_TERRITORY_ASSIGNMENT : assigns
+    SALES_REP ||--o{ QUOTA : receives
+    TERRITORY ||--o{ QUOTA : scopes
+    SALES_REP ||--o{ OPPORTUNITY : owns
+    OPPORTUNITY ||--o{ STAGE_HISTORY : records
+    OPPORTUNITY ||--o{ ACTIVITY : has
+    OPPORTUNITY ||--o{ CLOSE_DATE_CHANGE : tracks
+    OPPORTUNITY ||--o{ HISTORICAL_BOOKING : realizes
+    FORECAST_SNAPSHOT ||--o{ SNAPSHOT_OPPORTUNITY : contains
+    OPPORTUNITY ||--o{ SNAPSHOT_OPPORTUNITY : appears_in
+    FORECAST_SNAPSHOT ||--o{ FORECAST_RUN : evaluates
+    FORECAST_RUN ||--o{ OPPORTUNITY_FORECAST : produces
+    OPPORTUNITY ||--o{ OPPORTUNITY_FORECAST : receives
 ```
 
-## Technology stack
+The sales-representative-to-territory relationship is effective dated through the assignment bridge. Snapshot opportunities preserve the observed state used for historical evaluation, while later bookings and outcomes remain separate from forecast inputs. See the [entity relationships](docs/entity_relationships.md), [schema reference](docs/schema.md), and [data dictionary](docs/data_dictionary.md) for implemented columns and constraints.
 
-Python 3.11, FastAPI, Pydantic, Uvicorn, PostgreSQL 16, Psycopg 3, Pandas, NumPy, Streamlit, Docker Compose, and pytest.
+## Technology Stack
 
-## Quick start
+| Area | Technology |
+|---|---|
+| Application | Python 3.11 |
+| API | FastAPI, Pydantic, Uvicorn |
+| Data access | PostgreSQL 16, Psycopg 3 |
+| Analytics | pandas, NumPy |
+| Dashboard | Streamlit |
+| Testing | pytest, HTTPX |
+| Runtime | Docker, Docker Compose v2 |
 
-Prerequisites: Docker Desktop with Compose v2. The default ports are intentionally separate from the original BUSS stack: PostgreSQL `5545`, API `8011`, dashboard `8511`.
+## Getting Started
 
-```powershell
-Copy-Item .env.example .env
-# Edit .env and set a local-only POSTGRES_PASSWORD.
-docker compose up --build -d
-docker compose ps
-docker compose logs --no-color bootstrap
-```
+### Prerequisites
 
-Open [API docs](http://localhost:8011/docs), [health](http://localhost:8011/health), and the [dashboard](http://localhost:8511). The one-shot bootstrap service creates a starter dataset, runs migrations, validates it, and ingests it idempotently before the API starts.
+- Docker Desktop or a Docker Engine installation with Docker Compose v2.
+- Git, if you are cloning the repository.
 
-Stop services without deleting data:
+Run the following commands from the repository root in PowerShell:
 
-```powershell
-docker compose stop
-```
+    Copy-Item .env.example .env
+    # Edit .env and set POSTGRES_PASSWORD to a local secret.
+    docker compose up --build -d
+    docker compose ps
+    docker compose logs bootstrap
 
-This publication copy uses its own Compose project (`buss-publication`) and named volumes (`buss_publication_*`). It does not share the original BUSS volumes. Do not run `docker compose down -v` unless you intentionally want to delete this publication copy's local data.
+The bootstrap container completes three ordered actions:
 
-### Optional isolated run
+1. Generates starter data in the dedicated runtime-data volume.
+2. Applies PostgreSQL migrations.
+3. Seeds generated records with database validation enabled.
 
-For an additional disposable publication-only volume pair, choose a suffix:
+A successful bootstrap service exits with code 0; API and dashboard services start after it completes.
 
-```powershell
-$env:COMPOSE_VOLUME_SUFFIX = 'demo-20261028'
-docker compose -f docker-compose.yml -f docker-compose.isolated.yml up --build -d
-```
+### Default Local Endpoints
 
-## Dataset and generation
+| Service | Published host address | Container port |
+|---|---:|---:|
+| PostgreSQL | localhost:5545 | 5432 |
+| FastAPI | [http://localhost:8011](http://localhost:8011) | 8000 |
+| OpenAPI docs | [http://localhost:8011/docs](http://localhost:8011/docs) | 8000 |
+| Streamlit | [http://localhost:8511](http://localhost:8511) | 8501 |
 
-No raw generated starter/FULL dataset is committed. The application creates it locally from deterministic configuration. `configs/generator_starter.json` generates 20 reps, 20 accounts, and 200 opportunities; `configs/generator_full.json` specifies 2,000 reps, 2,000 accounts, 20,000 opportunities, and eight quarterly snapshots. The checked-in `data/ground_truth/` files are controlled negative-test fixtures only.
+The published host ports are for local access. Services communicate inside the Compose network on their container ports.
 
-```powershell
-python -m src.generator --config configs/generator_starter.json --output output/starter
-python -m src.generator --config configs/generator_anomalous.json --output output/anomalous --inject-anomalies
-python -m src.generator --config configs/generator_full.json --output output/full
-```
+For a routine stop and restart that retains database and runtime-data volumes:
 
-The FULL generation has documented deterministic checksum evidence in [reports/reproducibility_report.json](reports/reproducibility_report.json). Generated outputs, local databases, model files, caches, and `.env` are ignored by Git.
+    docker compose stop
+    docker compose up -d
 
-## Forecasting, scenarios, and evaluation
+Use docker compose logs -f bootstrap, docker compose logs -f api, and docker compose logs -f dashboard to investigate startup errors. Do not remove volumes when the intent is to retain local historical and forecast records.
 
-The transparent baseline calculates expected contribution from opportunity amount, effective stage probability, conditional timing probability, and expected booking fraction. Monte Carlo runs expose P10/P50/P90 ranges under explicit assumptions. Scenarios alter stated conversion, slippage, booking-fraction, and activity-effectiveness assumptions; they do not claim to predict the future.
+## Synthetic Data
 
-Point-in-time safeguards exclude post-cutoff events and protected outcome fields from features. Historical evaluation uses rolling origins and completed horizons. It is retrospective validation on synthetic data, not proof of production accuracy, calibration, or causal impact. See [feature engineering](docs/feature_engineering.md), [conversion model](docs/conversion_model.md), [baseline forecasting](docs/baseline_forecasting.md), [uncertainty and scenarios](docs/uncertainty_forecasting.md), and [limitations](docs/limitations.md).
+The generator supports a quick starter profile and a reproducible full profile.
 
-## Validated evidence
+| Profile | Sales representatives | Accounts | Opportunities | Historical snapshots | Seed |
+|---|---:|---:|---:|---:|---:|
+| Starter | 20 | 20 | 200 | Quarterly, 2025-01-01 through 2026-12-31 | 20261022 |
+| Full | 2,000 | 2,000 | 20,000 | Eight quarterly periods | 20261022 |
 
-The supplied final compliance evidence reports:
+Generate data outside the Compose bootstrap when needed:
 
-- 18/18 synthetic-business-brief requirements passed; this is specification compliance, not production readiness.
-- Two independent FULL generations matched CSV and logical checksums.
-- Isolated FULL PostgreSQL ingestion loaded 300,391 rows in 33.439 seconds (about 8,983 rows/second).
-- A full BASE forecast evaluated 938 eligible opportunities, reconciled to an expected total of $4,222,408.71 with zero contribution difference, and ran in 5.6082 seconds.
-- The source suite recorded 66 passed and 7 skipped; the isolated PostgreSQL suite recorded 72 passed with one third-party warning. Results are dated evidence, not a substitute for rerunning tests locally.
+    python -m src.generator --output runtime-data/starter
+    python -m src.generator --scale full --seed 20261022 --output runtime-data/full
 
-Read [final compliance](reports/final_brief_compliance.md), [full-scale validation](reports/full_scale_validation.md), [gap analysis](reports/brief_gap_analysis.md), and [anomaly evidence](reports/anomaly_validation.json) for scope and exact checks.
+Generated datasets are excluded from version control. Controlled ground-truth fixtures used by tests are tracked under data/ground_truth/. Dataset definitions and reproducibility procedures are documented in [generator assumptions](docs/generator_assumptions.md) and [reproduction](docs/reproduction.md).
 
-## Development and tests
+## Forecasting Method
 
-```powershell
-python -m pip install -r requirements.txt
-python -m pytest -q
-```
+For an eligible opportunity, expected recognized bookings are calculated as:
 
-For PostgreSQL integration tests, use a disposable database whose name ends in `_test`; do not point tests at a working demo database. Reproduction notes are in [docs/reproduction.md](docs/reproduction.md). API requests and endpoint descriptions are in [docs/api.md](docs/api.md).
+    reporting-currency amount
+    × P(eventual win | snapshot stage)
+    × P(recognized in horizon | expected close date, prior slippage)
+    × expected booking fraction
 
-## Dashboard guide
+Closed-won and closed-lost opportunities do not contribute future pipeline value. Stage-based conversion uses historical evidence available at the cutoff. Timing uses the expected close date and earlier close-date movement; a prior close-date change reduces timing probability, subject to a documented floor.
 
-| Page | Purpose |
-| --- | --- |
-| Executive Overview | Portfolio value, expected bookings, quota, and interval KPIs |
-| Pipeline Explorer | Opportunity-level filtered pipeline and contribution drill-down |
-| Risk and Exceptions | Explainable risk, concentration, quota, and data-quality findings |
-| Scenario Planner | Explicit assumption comparisons and simulation intervals |
-| Model Evaluation | Retrospective metrics and evaluation scope |
-| Audit and Traceability | Snapshot, feature/model version, assumption, and hash lineage |
+The point-in-time feature builder includes only observations available on or before the cutoff, including current stage and stage duration, opportunity age and expected days to close, trailing 30- and 90-day activities, historical conversion and win-rate aggregates, and effective sales-representative and territory assignments.
+
+Monte Carlo execution samples joint win and recognition events with a fixed seed and aggregates a forecast distribution. The API reports P10, P50, and P90 values; they communicate simulated uncertainty under the model assumptions, not a confidence guarantee.
+
+Scenarios alter documented conversion, timing, activity, and booking-fraction assumptions rather than applying an opaque multiplier. The [baseline method](docs/baseline_forecasting.md), [feature engineering](docs/feature_engineering.md), [uncertainty method](docs/uncertainty_forecasting.md), and [scenario definitions](docs/scenarios.md) describe the safeguards and equations.
+
+## API and Dashboard
+
+The FastAPI service exposes health, CRM views, forecasts, scenarios, historical evaluation, exceptions, and audit data. OpenAPI documentation is available at /docs.
+
+| Dashboard page | Purpose |
+|---|---|
+| Executive Overview | Expected bookings, scoped quota, attainment, and uncertainty context |
+| Pipeline Explorer | Opportunity, stage-history, and activity exploration |
+| Risk and Exceptions | Data-quality categories, severity, impact, and investigation guidance |
+| Scenario Planner | Side-by-side BASE, CONSERVATIVE, OPTIMISTIC, and CUSTOM outputs |
+| Model Evaluation | Historical metrics, periods, and model limitations |
+| Audit and Traceability | Snapshot, model, seed, hashes, and reproducibility evidence |
+
+A local health check can be made after startup:
+
+    Invoke-RestMethod http://localhost:8011/health
+
+Endpoint contracts are summarized in [API documentation](docs/api.md); dashboard behavior is described in [Streamlit documentation](docs/streamlit_dashboard.md).
+
+## Validation and Benchmarks
+
+Full-scale validation used the deterministic full profile in an isolated PostgreSQL environment. The results below are engineering evidence for that environment, not capacity commitments for another machine or a production deployment.
+
+- Two independent full generations with seed 20261022 produced matching logical checksums.
+- The full dataset loaded approximately 300,391 rows in 33.439 seconds, or about 8,983 rows per second.
+- The full forecast evaluated 938 eligible opportunities in 5.608 seconds.
+- Expected bookings were $4,222,408.71; the opportunity-level expected-contribution sum matched with a difference of $0.00.
+- Eight distinct quarterly snapshots were present.
+- Five controlled anomaly types were detected with no false positives or false negatives in the recorded fixture run.
+- Recorded source-suite validation reported 66 passed and 7 integration-only skips; a separate isolated PostgreSQL run reported 72 passed. Both runs recorded one third-party deprecation warning.
+
+Detailed evidence is available in the [full-scale validation report](reports/full_scale_validation.md), [reproduction instructions](docs/reproduction.md), and [anomaly injection documentation](docs/anomaly_injection.md).
+
+## Testing
+
+Run the default automated suite from a Python environment with the project dependencies installed:
+
+    python -m pytest -q
+
+Database integration tests require an explicitly configured disposable test database. Keep that target separate from an active working database and use a name ending in _test. The suite covers generator determinism, validation rules, API contracts, scenario calculations, point-in-time boundaries, reconciliation, and dashboard-facing calculations.
+
+For repeatable full-scale evidence, generate the full profile with the fixed seed, load it into an isolated PostgreSQL instance, and compare logical checksums and reconciliations using the procedures in [reproduction](docs/reproduction.md). The default workflow does not require destructive database operations.
 
 ## Documentation
 
-- [Data dictionary](docs/data_dictionary.md) and [schema](docs/schema.md)
+- [API reference](docs/api.md)
+- [Data dictionary](docs/data_dictionary.md)
+- [Database schema](docs/schema.md)
 - [Entity relationships](docs/entity_relationships.md)
-- [Requirements traceability](docs/requirements_traceability.md)
-- [Deployment](docs/deployment.md), [database setup](docs/database.md), and [reproduction](docs/reproduction.md)
-- [Interview demo](docs/interview_demo.md)
+- [Feature engineering](docs/feature_engineering.md)
+- [Forecasting method](docs/baseline_forecasting.md)
+- [Scenario definitions](docs/scenarios.md)
+- [Database operations](docs/database.md)
+- [Deployment](docs/deployment.md)
+- [Reproduction](docs/reproduction.md)
+- [Known limitations](docs/limitations.md)
 
-## Screenshots
+## Limitations
 
-Add screenshots taken from a local run before publication. Suggested captures: Executive Overview, Pipeline Explorer, Scenario Planner, Model Evaluation, and Audit and Traceability. Do not add screenshots containing credentials, local paths, or unreviewed generated data.
+- All CRM records, historical outcomes, and anomaly cases are synthetic; conclusions do not describe a real sales organization.
+- Historical coverage is finite and intentionally constructed, so model behavior should not be generalized to live CRM data without independent validation.
+- Point-in-time safeguards reduce leakage in the implemented experiments, but they do not turn synthetic history into evidence of real-world predictive performance.
+- The application has no production authentication, authorization, secrets management, monitoring, high availability, or backup design.
+- Forecast intervals quantify variation under specified assumptions; they do not capture every operational, economic, or data-collection uncertainty.
+- The service is intended for local, reproducible analysis rather than multi-user operational use.
 
-## Limitations and future work
+## Future Improvements
 
-- All records and outcomes are synthetic; neither accuracy nor capacity results transfer to a real CRM.
-- The API/dashboard have no authentication, authorization, TLS ingress, rate limiting, or multi-tenant isolation.
-- The current baseline is intentionally interpretable rather than a claim of an optimized predictive model.
-- Scenario outputs are assumption-based simulations, not guarantees.
-- Production use would require CRM snapshot history, real outcome monitoring, security controls, observability, schema migration governance, and an independently validated forecasting process.
-
-Potential next steps are a secured deployment boundary, CI/CD and dependency scanning, data-contract checks, and validation on genuine point-in-time CRM snapshots.
-
-## Interview talking points
-
-1. Start with the business decision: a forecast must be explainable, traceable, and usable for pipeline action.
-2. Walk through deterministic generation, schema validation, effective-dated relationships, migrations, and idempotent ingestion.
-3. Demonstrate snapshot-scoped features, protected outcome fields, and the distinction between a forecast and an outcome.
-4. Show weighted contributions, uncertainty intervals, explicit scenarios, and exception evidence.
-5. Close with rolling-origin backtesting, checksum evidence, known limitations, and the security/data requirements before production adoption.
-
-## Publication hygiene
-
-This folder is intentionally standalone and initialized as a local Git repository only; no remote is configured and nothing has been pushed to GitHub. Review `.gitignore`, `.dockerignore`, and every evidence file before adding a remote. Never commit `.env`, Docker volume contents, generated output, database files, or credentials.
+- Connect a governed production CRM source with documented snapshot retention.
+- Add role-based access control, managed secrets, observability, backup, and recovery procedures.
+- Evaluate models on independently collected historical data with formal monitoring for drift and calibration.
+- Add stronger workload, concurrency, and operational resilience testing.
+- Extend scenario review with approval workflows and stored business assumptions.
